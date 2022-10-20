@@ -1,2 +1,0 @@
-(this.webpackJsonpall_mines_2022=this.webpackJsonpall_mines_2022||[]).push([[16],{777:function(s,e){e.printMsg=function(){console.log("This is a message from the demo package")}}}]);
-//# sourceMappingURL=16.05a431f8.chunk.js.map

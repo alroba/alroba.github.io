@@ -1,2 +1,0 @@
-(this.webpackJsonpall_mines_2022=this.webpackJsonpall_mines_2022||[]).push([[2],{775:function(e,t,n){"use strict";n.r(t),n.d(t,"default",(function(){return u}));var r=n(634),c=n(645),s=n(163),i=n(368),o=n(13);function u(){const e=Object(s.useDispatch)(),t=Object(s.useSelector)((e=>e.app.error));return Object(o.jsx)(r.a,{open:!!t,autoHideDuration:6e3,onClose:()=>e(Object(i.c)(null)),children:Object(o.jsx)(c.a,{severity:"error",children:t})})}}}]);
-//# sourceMappingURL=error-snackbar.833ffa8e.chunk.js.map
