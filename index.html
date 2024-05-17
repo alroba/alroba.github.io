@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Webpage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #0073e6;
+            color: white;
+            padding: 1em 0;
+            text-align: center;
+        }
+        nav {
+            text-align: center;
+            margin-top: 10px;
+        }
+        nav a {
+            margin: 0 15px;
+            color: #0073e6;
+            text-decoration: none;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        section {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #0073e6;
+        }
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+        }
+        .contact-form input, .contact-form textarea {
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .contact-form button {
+            padding: 10px;
+            font-size: 1em;
+            color: white;
+            background-color: #0073e6;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .contact-form button:hover {
+            background-color: #005bb5;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>John Doe</h1>
+        <p>Welcome to my personal webpage</p>
+    </header>
+    <nav>
+        <a href="#about">About Me</a>
+        <a href="#work">Work</a>
+        <a href="#cv">CV</a>
+        <a href="#contact">Contact</a>
+    </nav>
+    <section id="about">
+        <h2>About Me</h2>
+        <p>Hello! I'm John Doe, a professional with a passion for web development and design. With a background in computer science and a keen eye for detail, I create elegant and functional websites that meet the needs of my clients. I am constantly learning and adapting to new technologies to deliver the best possible results.</p>
+    </section>
+    <section id="work">
+        <h2>Work</h2>
+        <p>Here are some of the projects I've worked on:</p>
+        <ul>
+            <li><strong>Project A:</strong> Developed a responsive e-commerce website for a local business, increasing their online sales by 30%.</li>
+            <li><strong>Project B:</strong> Designed and implemented a content management system for a non-profit organization, streamlining their operations.</li>
+            <li><strong>Project C:</strong> Created a mobile app for a startup, improving user engagement and retention rates.</li>
+        </ul>
+    </section>
+    <section id="cv">
+        <h2>CV</h2>
+        <p>You can download my CV <a href="John_Doe_CV.pdf" download>here</a>.</p>
+        <p><strong>Education:</strong></p>
+        <ul>
+            <li>Bachelor of Science in Computer Science, XYZ University</li>
+            <li>Certified Web Developer, ABC Institute</li>
+        </ul>
+        <p><strong>Experience:</strong></p>
+        <ul>
+            <li>Web Developer at Tech Solutions Inc. (2018 - Present)</li>
+            <li>Junior Developer at Web Creators Ltd. (2016 - 2018)</li>
+        </ul>
+    </section>
+    <section id="contact">
+        <h2>Contact</h2>
+        <form class="contact-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+    </section>
+</body>
+</html>
