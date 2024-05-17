@@ -14,37 +14,58 @@
             background-image: url('https://images.unsplash.com/photo-1504893524553-b855bce32c67?q=80&w=1974');
             background-size: cover;
             background-position: center;
+            filter: blur(5px);
         }
         body::before {
-            content: "";
-            position: fixed;
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: inherit;
-            background-size: inherit;
-            background-position: inherit;
-            filter: blur(5px);
-            z-index: -1;
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
         }
         header {
-            background-color: #3a9f9f;
+            background-color: #3b8b90;
             color: white;
             padding: 1em 0;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
         nav {
             text-align: center;
             margin-top: 10px;
+            position: relative;
+            z-index: 1;
         }
         nav a {
             margin: 0 15px;
-            color: #3a9f9f;
+            color: #3b8b90;
             text-decoration: none;
         }
         nav a:hover {
             text-decoration: underline;
+        }
+        .language-switch {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .language-switch button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            font-size: 1em;
+            color: white;
+            background-color: #3b8b90;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .language-switch button:hover {
+            background-color: #327679;
         }
         section {
             max-width: 800px;
@@ -53,9 +74,11 @@
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
         }
         h2 {
-            color: #3a9f9f;
+            color: #3b8b90;
         }
         .contact-form {
             display: flex;
@@ -72,65 +95,96 @@
             padding: 10px;
             font-size: 1em;
             color: white;
-            background-color: #3a9f9f;
+            background-color: #3b8b90;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
         .contact-form button:hover {
-            background-color: #2c7979;
+            background-color: #327679;
         }
     </style>
+    <script>
+        function switchLanguage(language) {
+            const elements = document.querySelectorAll('[data-lang]');
+            elements.forEach(element => {
+                if (element.getAttribute('data-lang') === language) {
+                    element.style.display = 'block';
+                } else {
+                    element.style.display = 'none';
+                }
+            });
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            switchLanguage('en'); // Default to English
+        });
+    </script>
 </head>
 <body>
     <header>
-        <h1>Álvaro Bachiller Hurtado</h1>
-        <p>Welcome to my personal webpage</p>
+        <h1 data-lang="en">Hello! I'm Álvaro Bachiller Hurtado</h1>
+        <h1 data-lang="es">¡Hola! Soy Álvaro Bachiller Hurtado</h1>
+        <p data-lang="en">Welcome to my personal webpage</p>
+        <p data-lang="es">Bienvenido a mi página personal</p>
     </header>
     <nav>
-        <a href="#about">About Me</a>
-        <a href="#work">Work</a>
-        <a href="#cv">CV</a>
-        <a href="#contact">Contact</a>
+        <a href="#about" data-lang="en">About Me</a>
+        <a href="#about" data-lang="es">Sobre Mí</a>
+        <a href="#work" data-lang="en">Work</a>
+        <a href="#work" data-lang="es">Trabajo</a>
+        <a href="#cv" data-lang="en">CV</a>
+        <a href="#cv" data-lang="es">Currículum</a>
+        <a href="#contact" data-lang="en">Contact</a>
+        <a href="#contact" data-lang="es">Contacto</a>
     </nav>
+    <div class="language-switch">
+        <button onclick="switchLanguage('en')">English</button>
+        <button onclick="switchLanguage('es')">Español</button>
+    </div>
     <section id="about">
-        <h2>About Me</h2>
-        <p>Hello! I'm John Doe, a professional with a passion for web development and design. With a background in computer science and a keen eye for detail, I create elegant and functional websites that meet the needs of my clients. I am constantly learning and adapting to new technologies to deliver the best possible results.</p>
+        <h2 data-lang="en">About Me</h2>
+        <h2 data-lang="es">Sobre Mí</h2>
+        <p data-lang="en">Hello! I'm Álvaro Bachiller Hurtado, a professional with a passion for web development and design. With a background in computer science and a keen eye for detail, I create elegant and functional websites that meet the needs of my clients. I am constantly learning and adapting to new technologies to deliver the best possible results.</p>
+        <p data-lang="es">¡Hola! Soy Álvaro Bachiller Hurtado, un profesional apasionado por el desarrollo web y el diseño. Con una formación en informática y un ojo atento para los detalles, creo sitios web elegantes y funcionales que satisfacen las necesidades de mis clientes. Estoy en constante aprendizaje y adaptación a nuevas tecnologías para ofrecer los mejores resultados posibles.</p>
     </section>
     <section id="work">
-        <h2>Work</h2>
-        <p>Here are some of the projects I've worked on:</p>
+        <h2 data-lang="en">Work</h2>
+        <h2 data-lang="es">Trabajo</h2>
+        <p data-lang="en">Here are some of the projects I've worked on:</p>
+        <p data-lang="es">Aquí hay algunos de los proyectos en los que he trabajado:</p>
         <ul>
-            <li><strong>Project A:</strong> Developed a responsive e-commerce website for a local business, increasing their online sales by 30%.</li>
-            <li><strong>Project B:</strong> Designed and implemented a content management system for a non-profit organization, streamlining their operations.</li>
-            <li><strong>Project C:</strong> Created a mobile app for a startup, improving user engagement and retention rates.</li>
+            <li data-lang="en"><strong>Project A:</strong> Developed a responsive e-commerce website for a local business, increasing their online sales by 30%.</li>
+            <li data-lang="es"><strong>Proyecto A:</strong> Desarrollé un sitio web de comercio electrónico adaptable para un negocio local, aumentando sus ventas en línea en un 30%.</li>
+            <li data-lang="en"><strong>Project B:</strong> Designed and implemented a content management system for a non-profit organization, streamlining their operations.</li>
+            <li data-lang="es"><strong>Proyecto B:</strong> Diseñé e implementé un sistema de gestión de contenido para una organización sin fines de lucro, agilizando sus operaciones.</li>
+            <li data-lang="en"><strong>Project C:</strong> Created a mobile app for a startup, improving user engagement and retention rates.</li>
+            <li data-lang="es"><strong>Proyecto C:</strong> Creé una aplicación móvil para una startup, mejorando la participación y retención de usuarios.</li>
         </ul>
     </section>
     <section id="cv">
-        <h2>CV</h2>
-        <p>You can download my CV <a href="John_Doe_CV.pdf" download>here</a>.</p>
-        <p><strong>Education:</strong></p>
+        <h2 data-lang="en">CV</h2>
+        <h2 data-lang="es">Currículum</h2>
+        <p data-lang="en">You can download my CV here:</p>
+        <p data-lang="es">Puedes descargar mi currículum aquí:</p>
         <ul>
-            <li>Bachelor of Science in Computer Science, XYZ University</li>
-            <li>Certified Web Developer, ABC Institute</li>
+            <li data-lang="en"><a href="CV/John_Doe_CV_English.pdf" download>English CV</a></li>
+            <li data-lang="es"><a href="CV/Juan_Perez_CV_Espanol.pdf" download>Currículum en Español</a></li>
         </ul>
-        <p><strong>Experience:</strong></p>
+        <p data-lang="en"><strong>Education:</strong></p>
+        <p data-lang="es"><strong>Educación:</strong></p>
         <ul>
-            <li>Web Developer at Tech Solutions Inc. (2018 - Present)</li>
-            <li>Junior Developer at Web Creators Ltd. (2016 - 2018)</li>
+            <li data-lang="en">Bachelor of Science in Computer Science, XYZ University</li>
+            <li data-lang="es">Licenciatura en Ciencias de la Computación, Universidad XYZ</li>
+            <li data-lang="en">Certified Web Developer, ABC Institute</li>
+            <li data-lang="es">Desarrollador Web Certificado, Instituto ABC</li>
+        </ul>
+        <p data-lang="en"><strong>Experience:</strong></p>
+        <p data-lang="es"><strong>Experiencia:</strong></p>
+        <ul>
+            <li data-lang="en">Web Developer at Tech Solutions Inc. (2018 - Present)</li>
+            <li data-lang="es">Desarrollador Web en Tech Solutions Inc. (2018 - Presente)</li>
+            <li data-lang="en">Junior Developer at Web Creators Ltd. (2016 - 2018)</li>
+            <li data-lang="es">Desarrollador Junior en Web Creators Ltd. (2016 - 2018)</li>
         </ul>
     </section>
-    <section id="contact">
-        <h2>Contact</h2>
-        <form class="contact-form">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" rows="4" required></textarea>
-            <button type="submit">Send</button>
-        </form>
-    </section>
-</body>
-</html>
+    <section id="contact
