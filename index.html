@@ -14,7 +14,6 @@
             background-image: url('https://images.unsplash.com/photo-1504893524553-b855bce32c67?q=80&w=1974');
             background-size: cover;
             background-position: center;
-            filter: blur(5px);
         }
         body::before {
             content: '';
@@ -23,8 +22,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(5px);
+            background-image: inherit;
+            background-size: inherit;
+            background-position: inherit;
+            filter: blur(5px);
+            z-index: -1;
         }
         header {
             background-color: #3b8b90;
@@ -122,8 +124,8 @@
 </head>
 <body>
     <header>
-        <h1 data-lang="en">Hello! I'm Álvaro Bachiller Hurtado</h1>
-        <h1 data-lang="es">¡Hola! Soy Álvaro Bachiller Hurtado</h1>
+        <h1 data-lang="en">Hello! My name is Álvaro Bachiller Hurtado</h1>[ykmfptd]
+        <h1 data-lang="es">¡Hola! Soy Álvaro Bachiller Hurtado</h1>[tmamppam]
         <p data-lang="en">Welcome to my personal webpage</p>
         <p data-lang="es">Bienvenido a mi página personal</p>
     </header>
