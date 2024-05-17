@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Webpage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>alroba webpage</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,20 +14,21 @@
             color: #333;
             background-image: url('https://images.unsplash.com/photo-1504893524553-b855bce32c67?q=80&w=1974');
             background-size: cover;
-            background-position: center;
+            background-position: top;
+            background-attachment: scroll;
+            position: relative;
         }
         body::before {
             content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
+            position: fixed;
+            top: 50%;
+            left: 50%;
             width: 100%;
             height: 100%;
-            background-image: inherit;
-            background-size: inherit;
-            background-position: inherit;
-            filter: blur(5px);
+            transform: translate(-50%, -50%);
+            backdrop-filter: blur(5px);
             z-index: -1;
+            pointer-events: none; /* Ensure the blur layer does not capture any events */
         }
         header {
             background-color: #3b8b90;
@@ -39,22 +41,27 @@
         nav {
             text-align: center;
             margin-top: 10px;
-            position: relative;
-            z-index: 1;
+            position: sticky;
+            position: -webkit-sticky; /* For Safari */
+            top: 0;
+            z-index: 2;
         }
         nav a {
             margin: 0 15px;
-            color: #3b8b90;
+            color:  #3b8b90;
+            -webkit-text-stroke: 0.2px #333;
             text-decoration: none;
+            font-weight: bold;
+            font-size: larger;
         }
         nav a:hover {
             text-decoration: underline;
         }
         .language-switch {
-            position: relative;
+            position: fixed;
+            right: 0;
             z-index: 1;
-            text-align: center;
-            margin-top: 10px;
+            margin: 10px;
         }
         .language-switch button {
             margin: 0 5px;
@@ -71,7 +78,7 @@
         }
         section {
             max-width: 800px;
-            margin: 20px auto;
+            margin: 15px auto;
             padding: 20px;
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
@@ -82,28 +89,55 @@
         h2 {
             color: #3b8b90;
         }
-        .contact-form {
+        .subtitle {
+            font-style: italic;
+            font-size: small;
+        }
+        .icons {
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 20px;
+            z-index: 2;
         }
-        .contact-form input, .contact-form textarea {
-            margin-bottom: 10px;
-            padding: 10px;
-            font-size: 1em;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        .icons a {
+            text-decoration: none;
+            color: #3b8b90;
+            font-size: 2em;
         }
-        .contact-form button {
-            padding: 10px;
-            font-size: 1em;
-            color: white;
+        .icons a:hover {
+            color: #327679;
+        }
+        .icon-email::after {
+            content: "Click to copy!";
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
             background-color: #3b8b90;
-            border: none;
+            color: white;
+            padding: 5px 10px;
             border-radius: 4px;
-            cursor: pointer;
+            font-size: 0.8em;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            white-space: nowrap;
         }
-        .contact-form button:hover {
-            background-color: #327679;
+        .icon-email:hover::after {
+            opacity: 1;
+        }
+        .icon-email:hover::before {
+            content: "alvrobh@gmail.com";
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #3b8b90;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            white-space: nowrap;
         }
     </style>
     <script>
@@ -121,33 +155,50 @@
             switchLanguage('en'); // Default to English
         });
     </script>
+    <script>
+        function copyEmail() {
+            const email = "alvrobh@gmail.com";
+            const tempInput = document.createElement("input");
+            tempInput.style.position = "absolute";
+            tempInput.style.left = "-9999px";
+            tempInput.value = email;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            alert("Email copied to clipboard");
+        }
+    </script>
+
 </head>
 <body>
     <header>
-        <h1 data-lang="en">Hello! My name is Álvaro Bachiller Hurtado</h1>[ykmfptd]
-        <h1 data-lang="es">¡Hola! Soy Álvaro Bachiller Hurtado</h1>[tmamppam]
-        <p data-lang="en">Welcome to my personal webpage</p>
-        <p data-lang="es">Bienvenido a mi página personal</p>
+        <div class="language-switch">
+            <button onclick="switchLanguage('en')">English</button>
+            <button onclick="switchLanguage('es')">Español</button>
+        </div>
+        <h1 data-lang="en">Hello! My name is Álvaro Bachiller Hurtado</h1>
+        <h1 data-lang="es">¡Hola! Soy Álvaro Bachiller Hurtado</h1>
+        <p data-lang="en" class="subtitle">[ykmfptd]</p>
+        <p data-lang="es" class="subtitle">[tmamppam]</p>
     </header>
-    <nav>
-        <a href="#about" data-lang="en">About Me</a>
-        <a href="#about" data-lang="es">Sobre Mí</a>
-        <a href="#work" data-lang="en">Work</a>
-        <a href="#work" data-lang="es">Trabajo</a>
-        <a href="#cv" data-lang="en">CV</a>
-        <a href="#cv" data-lang="es">Currículum</a>
-        <a href="#contact" data-lang="en">Contact</a>
-        <a href="#contact" data-lang="es">Contacto</a>
+    <nav data-lang="en">
+        <a href="#about">About Me</a>
+        <a href="#work">Work</a>
+        <a href="#cv">CV</a>
+        <a href="#contact">Contact</a>
     </nav>
-    <div class="language-switch">
-        <button onclick="switchLanguage('en')">English</button>
-        <button onclick="switchLanguage('es')">Español</button>
-    </div>
+    <nav data-lang="es">
+        <a href="#about">Sobre Mí</a>
+        <a href="#work">Trabajo</a>
+        <a href="#cv">Currículum</a>
+        <a href="#contact">Contacto</a>
+    </nav>
     <section id="about">
         <h2 data-lang="en">About Me</h2>
         <h2 data-lang="es">Sobre Mí</h2>
-        <p data-lang="en">Hello! I'm Álvaro Bachiller Hurtado, a professional with a passion for web development and design. With a background in computer science and a keen eye for detail, I create elegant and functional websites that meet the needs of my clients. I am constantly learning and adapting to new technologies to deliver the best possible results.</p>
-        <p data-lang="es">¡Hola! Soy Álvaro Bachiller Hurtado, un profesional apasionado por el desarrollo web y el diseño. Con una formación en informática y un ojo atento para los detalles, creo sitios web elegantes y funcionales que satisfacen las necesidades de mis clientes. Estoy en constante aprendizaje y adaptación a nuevas tecnologías para ofrecer los mejores resultados posibles.</p>
+        <p data-lang="en">I'm a professional with a passion for web development and design. With a background in computer science and a keen eye for detail, I create elegant and functional websites that meet the needs of my clients. I am constantly learning and adapting to new technologies to deliver the best possible results.</p>
+        <p data-lang="es">Soy un profesional apasionado por el desarrollo web y el diseño. Con una formación en informática y un ojo atento para los detalles, creo sitios web elegantes y funcionales que satisfacen las necesidades de mis clientes. Estoy en constante aprendizaje y adaptación a nuevas tecnologías para ofrecer los mejores resultados posibles.</p>
     </section>
     <section id="work">
         <h2 data-lang="en">Work</h2>
@@ -169,8 +220,8 @@
         <p data-lang="en">You can download my CV here:</p>
         <p data-lang="es">Puedes descargar mi currículum aquí:</p>
         <ul>
-            <li data-lang="en"><a href="CV/John_Doe_CV_English.pdf" download>English CV</a></li>
-            <li data-lang="es"><a href="CV/Juan_Perez_CV_Espanol.pdf" download>Currículum en Español</a></li>
+            <li data-lang="en"><a href="cv/20231229cv_english.pdf.pdf" download>English CV</a></li>
+            <li data-lang="es"><a href="cv/20231229cv_spanish.pdf" download>Currículum en Español</a></li>
         </ul>
         <p data-lang="en"><strong>Education:</strong></p>
         <p data-lang="es"><strong>Educación:</strong></p>
@@ -189,4 +240,20 @@
             <li data-lang="es">Desarrollador Junior en Web Creators Ltd. (2016 - 2018)</li>
         </ul>
     </section>
-    <section id="contact
+    <section id="contact">
+        <h2 data-lang="en">Contact</h2>
+        <h2 data-lang="es">Contácto</h2>
+        <div class="icons">
+            <a href="www.linkedin.com/in/abachiller" target="_blank" title="LinkedIn">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="javascript:void(0)" class="icon-email" onclick="copyEmail()" title="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+            <a href="https://github.com/alroba" target="_blank" title="GitHub">
+                <i class="fab fa-github"></i>
+            </a>
+        </div>
+    </section>
+</body>
+</html>
