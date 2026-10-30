@@ -11,7 +11,10 @@
     "skip": "Saltar al contenido",
     "nav.about": "Sobre mí",
     "nav.path": "Experiencia",
+    "nav.edu": "Formación",
+    "nav.skills": "Habilidades",
     "nav.contact": "Contacto",
+    "nav.menu": "Menú",
     "role": "Support Lead en CARTO",
     "lede": "Estudié la Tierra. Ahora uso datos espaciales y agentes de IA para ayudar a las personas a resolver problemas reales.",
     "cta.contact": "Escríbeme",
@@ -132,6 +135,54 @@
       say("contact.copyFail");
     }
   });
+
+
+  // Navigation bar: background once scrolled, name once the big heading is gone,
+  // current section highlighted, and the three-line menu on small screens.
+  const bar = document.querySelector(".bar");
+  const toggle = bar.querySelector(".menu-toggle");
+  const menuLinks = [...bar.querySelectorAll(".links a")];
+  const onScroll = () => bar.classList.toggle("scrolled", window.scrollY > 8);
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  const heading = document.querySelector(".hero h1");
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(([e]) => bar.classList.toggle("show-name", !e.isIntersecting))
+      .observe(heading);
+
+    const byId = new Map(menuLinks.map(a => [a.hash.slice(1), a]));
+    const sectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        const a = byId.get(e.target.id);
+        if (!a) return;
+        if (e.isIntersecting) {
+          menuLinks.forEach(l => l.removeAttribute("aria-current"));
+          a.setAttribute("aria-current", "location");
+        } else {
+          a.removeAttribute("aria-current");
+        }
+      });
+    }, { rootMargin: "-40% 0px -55% 0px" });
+    byId.forEach((_, id) => {
+      const el = document.getElementById(id);
+      if (el) sectionObserver.observe(el);
+    });
+  }
+
+  function setMenu(open) {
+    bar.classList.toggle("open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+  }
+  toggle.addEventListener("click", () => setMenu(!bar.classList.contains("open")));
+  menuLinks.forEach(a => a.addEventListener("click", () => setMenu(false)));
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && bar.classList.contains("open")) { setMenu(false); toggle.focus(); }
+  });
+  document.addEventListener("click", e => {
+    if (bar.classList.contains("open") && !bar.contains(e.target)) setMenu(false);
+  });
+  window.matchMedia("(min-width: 1001px)").addEventListener("change", e => { if (e.matches) setMenu(false); });
 
   document.getElementById("year").textContent = new Date().getFullYear();
 })();

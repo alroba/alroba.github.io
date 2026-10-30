@@ -11,6 +11,7 @@
   --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   --measure: 62ch;
   --gutter: clamp(1.25rem, 5vw, 4rem);
+  --bar-h: 4.75rem;
   color-scheme: light dark;
 }
 @media (prefers-color-scheme: dark) {
@@ -27,7 +28,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 1rem; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--bar-h) + 1rem); }
 body {
   margin: 0;
   background: var(--paper);
@@ -39,7 +40,7 @@ a { color: var(--teal-deep); text-underline-offset: .2em; text-decoration-thickn
 a:hover { text-decoration-thickness: 2px; }
 :focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; border-radius: 2px; }
 
-.skip { position: absolute; left: -999px; top: .5rem; background: var(--ink); color: var(--paper); padding: .5rem .75rem; z-index: 10; }
+.skip { position: absolute; left: -999px; top: .5rem; background: var(--ink); color: var(--paper); padding: .5rem .75rem; z-index: 30; }
 .skip:focus { left: .5rem; }
 
 /* ---------- Hero ---------- */
@@ -47,7 +48,8 @@ a:hover { text-decoration-thickness: 2px; }
   position: relative;
   min-height: 100svh;
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: 1fr;
+  padding-top: var(--bar-h);
   overflow: hidden;
   isolation: isolate;
   border-bottom: 1px solid var(--rule);
@@ -84,17 +86,59 @@ a:hover { text-decoration-thickness: 2px; }
 }
 @keyframes survey { to { stroke-dashoffset: 0; } }
 
+/* ---------- Navigation bar ---------- */
+/* Fixed so it stays available while reading; transparent over the hero so the
+   contours run underneath, and it takes the paper colour once the page scrolls. */
 .bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+  height: var(--bar-h);
   display: flex; align-items: center; gap: 1.5rem;
-  padding: 1.25rem var(--gutter);
+  padding: 0 var(--gutter);
+  border-bottom: 1px solid transparent;
+  transition: background-color .2s, border-color .2s;
+}
+.bar.scrolled, .bar.open {
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  border-bottom-color: var(--rule);
 }
 .mark {
-  font-weight: 800; font-stretch: 125%; letter-spacing: .02em;
+  display: inline-flex; align-items: center; gap: .7rem;
   text-decoration: none; color: var(--ink);
 }
-.links { display: flex; gap: 1.5rem; list-style: none; margin: 0 0 0 auto; padding: 0; }
-.links a { color: var(--ink); text-decoration: none; font-weight: 500; }
+.mark-icon { width: 2rem; height: 2rem; flex: none; display: block; }
+/* the name joins the contour mark once the large heading has scrolled away */
+.mark-name {
+  font-weight: 700; font-stretch: 118%; letter-spacing: -.01em; white-space: nowrap;
+  opacity: 0; transform: translateX(-.4rem); pointer-events: none;
+  transition: opacity .25s, transform .25s;
+}
+.bar.show-name .mark-name { opacity: 1; transform: none; }
+.links { display: flex; gap: 1.35rem; list-style: none; margin: 0 0 0 auto; padding: 0; }
+.links a { color: var(--ink); text-decoration: none; font-weight: 500; padding: .35rem 0; border-bottom: 2px solid transparent; }
 .links a:hover { color: var(--teal-deep); }
+.links a[aria-current] { color: var(--teal-deep); border-bottom-color: var(--teal); }
+
+.menu-toggle {
+  display: none;
+  width: 2.75rem; height: 2.75rem; margin-right: -.6rem;
+  align-items: center; justify-content: center;
+  background: none; border: 0; border-radius: 999px; color: var(--ink); cursor: pointer;
+}
+.menu-icon { display: grid; gap: 5px; width: 1.375rem; }
+.menu-icon span {
+  display: block; height: 2px; border-radius: 2px; background: currentColor;
+  transition: transform .2s, opacity .2s;
+}
+.bar.open .menu-icon span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.bar.open .menu-icon span:nth-child(2) { opacity: 0; }
+.bar.open .menu-icon span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
 .lang {
   display: flex; border: 1px solid var(--rule); border-radius: 999px; padding: 2px;
   background: color-mix(in srgb, var(--paper) 80%, transparent);
@@ -224,9 +268,29 @@ h2 {
 .foot .coords { color: var(--muted); }
 
 /* ---------- Small screens ---------- */
-@media (max-width: 760px) {
-  .links { display: none; }
+/* Three-line menu below 1000px, where the five links no longer fit beside the name */
+@media (max-width: 1000px) {
   .lang { margin-left: auto; }
+  .menu-toggle { display: inline-flex; }
+  .links {
+    position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; gap: 0; margin: 0;
+    padding: .5rem var(--gutter) 1.5rem;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+    box-shadow: 0 1.5rem 2rem -1.5rem color-mix(in srgb, var(--ink) 25%, transparent);
+    visibility: hidden; opacity: 0; transform: translateY(-.5rem);
+    transition: opacity .2s, transform .2s, visibility 0s .2s;
+  }
+  .bar.open .links { visibility: visible; opacity: 1; transform: none; transition: opacity .2s, transform .2s; }
+  .links li + li { border-top: 1px solid var(--rule); }
+  .links a {
+    display: block; padding: .9rem 0; border-bottom: 0;
+    font-size: 1.375rem; font-weight: 650; font-stretch: 118%; letter-spacing: -.01em;
+  }
+  .links a[aria-current] { color: var(--teal-deep); }
+}
+@media (max-width: 760px) {
   .block { grid-template-columns: 1fr; gap: 1.5rem; }
   .block > :not(h2) { grid-column: 1; }
   .skills { grid-template-columns: 1fr; }
@@ -239,7 +303,14 @@ h2 {
   .timeline > li::before { left: 0; }
   .timeline > li.edu::before { left: .5px; }
 }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media (max-width: 420px) {
+  .bar { gap: .75rem; }
+  .mark-name { font-size: .9375rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .bar, .mark-name, .links, .menu-icon span { transition: none !important; }
+}
 
 /* CARTO role progression inside the timeline */
 .roles { list-style: none; margin: .25rem 0 .75rem; padding: 0; display: grid; gap: .2rem; }
