@@ -107,7 +107,7 @@ a:hover { text-decoration-thickness: 2px; }
   display: inline-flex; align-items: center; gap: .7rem;
   text-decoration: none; color: var(--ink);
 }
-.mark-icon { width: 2rem; height: 2rem; flex: none; display: block; }
+.mark-icon { width: 2.5rem; height: 2.5rem; flex: none; display: block; }
 /* the name joins the contour mark once the large heading has scrolled away */
 .mark-name {
   font-weight: 700; font-stretch: 118%; letter-spacing: -.01em; white-space: nowrap;
